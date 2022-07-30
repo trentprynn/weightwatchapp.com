@@ -65,30 +65,31 @@ export class AccountSettingsComponent implements OnInit {
 
   revokeAllRefreshTokens() {
     if (
-      window.confirm(
+      confirm(
         'Are you sure you want to revoke refresh tokens for this account? All browsers, including this one, will be logged out'
-      )
-    )
+      ) === true
+    ) {
       this.revokeAllRefreshTokensLoading = true
-    this.authService
-      .revokeAllRefreshTokens()
-      .subscribe({
-        next: () => {
-          this.authService.logOut()
-        },
-        error: (error: HttpErrorResponse) => {
-          this.snackBar.open(error.error.message, 'ok', {
-            duration: 5000,
-          })
-        },
-      })
-      .add(() => {
-        this.revokeAllRefreshTokensLoading = false
-      })
+      this.authService
+        .revokeAllRefreshTokens()
+        .subscribe({
+          next: () => {
+            this.authService.logOut()
+          },
+          error: (error: HttpErrorResponse) => {
+            this.snackBar.open(error.error.message, 'ok', {
+              duration: 5000,
+            })
+          },
+        })
+        .add(() => {
+          this.revokeAllRefreshTokensLoading = false
+        })
+    }
   }
 
   deleteUser() {
-    if (window.confirm('Are you sure you want to delete your account? This cannot be undone')) {
+    if (confirm('Are you sure you want to delete your account? This cannot be undone') === true) {
       this.deleteUserLoading = true
       this.userService
         .deleteUser()
