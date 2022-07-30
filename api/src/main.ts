@@ -7,9 +7,7 @@ import { AppModule } from './app.module'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
   app.setGlobalPrefix('v1', {
-    exclude: [
-      { path: '', method: RequestMethod.GET },
-    ],
+    exclude: [{ path: '', method: RequestMethod.GET }],
   })
   app.use(helmet())
   app.useGlobalPipes(
@@ -19,7 +17,7 @@ async function bootstrap() {
   )
 
   app.enableCors({
-    origin: ['http://localhost:4200', 'https://weightwatchapp.com']
+    origin: ['http://localhost:4200', 'https://weightwatchapp.com'],
   })
 
   const config = new DocumentBuilder()

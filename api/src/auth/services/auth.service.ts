@@ -4,12 +4,12 @@ import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt'
 import { prisma } from 'prisma/client'
 
-type JWTPayload = {
+type CreateNewJWTPayload = {
   userId: string
   email: string
 }
 
-type parsedJWTPayload = {
+type ParsedJWTPayload = {
   userId: string
   email: string
   iat: number
@@ -35,15 +35,15 @@ export class AuthService {
     })
 
     if (user && (await bcrypt.compare(password, user.passwordHash))) {
-      const jwtPayload: JWTPayload = {
-        userId: user.userId,
-        email: user.email,
-      }
-
-      // every time a user logs in, cleanup their expired refresh tokens (this is done to avoid having to
+      // every time a user successfully logs in, cleanup their expired refresh tokens (this is done to avoid having to
       // do this in a cron-like action)
       await this.cleanupExpiredRefreshTokensByUserId(user.userId)
 
+      // create a new JWT for the user that just logged in
+      const jwtPayload: CreateNewJWTPayload = {
+        userId: user.userId,
+        email: user.email,
+      }
       return await this.constructTokenFromPayloadAndStoreRefreshToken(jwtPayload)
     }
 
@@ -52,7 +52,7 @@ export class AuthService {
 
   public async refreshToken(refreshToken: string) {
     try {
-      const refreshTokenData: parsedJWTPayload = await this.jwtService.verifyAsync<parsedJWTPayload>(refreshToken, {
+      const refreshTokenData: ParsedJWTPayload = await this.jwtService.verifyAsync<ParsedJWTPayload>(refreshToken, {
         secret: this.configService.get<string>('REFRESH_TOKEN_SECRET'),
       })
 
@@ -63,7 +63,7 @@ export class AuthService {
       })
 
       // the user gave a valid refresh token we issued, ensure it hasn't been revoked by checking that we have it
-      // stored
+      // stored in the user's refresh tokens in the database
       let userRefreshTokenHashMatch: string | undefined = undefined
       for (let i = 0; i < userRefreshTokens.length; i++) {
         if (await bcrypt.compare(refreshToken, userRefreshTokens[i].refreshTokenHash)) {
@@ -73,36 +73,28 @@ export class AuthService {
 
       if (userRefreshTokenHashMatch) {
         // the refresh token the user sent is both valid and non-revoked, remove it from the store so it can't be
-        // used again and use the token to generate a full new auth token object for the user
-        await prisma.refreshToken.delete({
-          where: {
-            refreshTokenHash_userId: { userId: refreshTokenData.userId, refreshTokenHash: userRefreshTokenHashMatch },
-          },
-        })
+        // used again
+        await this.deleteRefreshTokenForUser(refreshTokenData.userId, userRefreshTokenHashMatch)
 
-        const newAuthTokenPayload: JWTPayload = {
+        // every time a user successfully refreshes an access token, cleanup their expired refresh tokens (this is done
+        // to avoid having to do this in a cron-like action)
+        await this.cleanupExpiredRefreshTokensByUserId(refreshTokenData.userId)
+
+        // use the parsed, valid refresh token's data to generate a full new auth token for the calling user
+        const newAuthTokenPayload: CreateNewJWTPayload = {
           userId: refreshTokenData.userId,
           email: refreshTokenData.email,
         }
-
-        // every time a user refreshes an access token, cleanup their expired refresh tokens (this is done to avoid
-        // having to do this in a cron-like action)
-        await this.cleanupExpiredRefreshTokensByUserId(refreshTokenData.userId)
-
-        // create the signed JWT object we'll return to the caller that will have a new access token + refresh token
-        // with updated expirations they can use
         return this.constructTokenFromPayloadAndStoreRefreshToken(newAuthTokenPayload)
       } else {
-        console.log('GIVEN TOKEN VERIFIED BUT NOT FOUND IN STORE')
-        throw new BadRequestException('Token cryptographically valid but not found (probably revoked)')
+        throw new BadRequestException('Token cryptographically valid but not found (likely revoked)')
       }
     } catch (e: any) {
-      console.log('FAILED TO VERIFY REFRESH TOKEN')
       throw new BadRequestException('Invalid refresh token given')
     }
   }
 
-  public async deleteAllRefreshTokenForUser(userId: string) {
+  public async deleteAllRefreshTokensForUser(userId: string) {
     return await prisma.refreshToken.deleteMany({
       where: {
         userId: userId,
@@ -118,7 +110,7 @@ export class AuthService {
     })
   }
 
-  private async constructTokenFromPayloadAndStoreRefreshToken(jwtPayload: JWTPayload) {
+  private async constructTokenFromPayloadAndStoreRefreshToken(jwtPayload: CreateNewJWTPayload) {
     // create our signed token return object which has the access token + refresh tokens setup
     const returnObject: TokenReturnObject = {
       access_token: await this.jwtService.signAsync(jwtPayload, {
@@ -149,7 +141,7 @@ export class AuthService {
   }
 
   private async cleanupExpiredRefreshTokensByUserId(userId: string) {
-    return await prisma.refreshToken.findMany({
+    return await prisma.refreshToken.deleteMany({
       where: {
         AND: {
           userId: userId,

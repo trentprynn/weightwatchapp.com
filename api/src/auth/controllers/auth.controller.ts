@@ -35,7 +35,7 @@ export class AuthController {
   @Delete('refresh-tokens')
   async deleteAllRefreshTokens(@Req() req: AuthenticatedRequest) {
     console.log(`DELETING REFRESH TOKENS`)
-    return this.authService.deleteAllRefreshTokenForUser(req.user.id)
+    return this.authService.deleteAllRefreshTokensForUser(req.user.id)
   }
 
   @ApiBearerAuth()
