@@ -1,0 +1,85 @@
+<div class="container mt-3 p-3 bg-light rounded">
+  <div class="row justify-content-center">
+    <div class="col col-md-8 col-xxl-6">
+      <h1>Account Settings Page</h1>
+      <hr />
+
+      <mat-card>
+        <mat-card-title>Profile</mat-card-title>
+        <mat-card-content class="pt-3">
+          <ng-container *ngIf="currentUserLoading | async">
+            <div class="row justify-content-center">
+              <div class="col-auto">
+                <div class="spinner-grow" style="width: 3rem; height: 3rem" role="status"></div>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="currentUser | async">
+            <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+              <div>
+                <mat-form-field>
+                  <mat-label>Email</mat-label>
+                  <input matInput [formControl]="profileForm.controls.email" />
+                  <mat-error *ngIf="profileForm.controls.email.hasError('required')">You must enter a value</mat-error>
+                  <mat-error *ngIf="profileForm.controls.email.hasError('email')"
+                    >You must enter a valid email</mat-error
+                  >
+                </mat-form-field>
+              </div>
+
+              <div>
+                <mat-form-field>
+                  <mat-label>Name</mat-label>
+                  <input matInput [formControl]="profileForm.controls.name" />
+                </mat-form-field>
+              </div>
+
+              <div>
+                <button [disabled]="saveProfileLoading" mat-flat-button color="primary" type="submit">Save</button>
+              </div>
+            </form>
+          </ng-container>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="mt-3">
+        <mat-card-content>
+          <div class="row justify-content-between">
+            <div class="col-auto">
+              <h2>Refresh Tokens</h2>
+            </div>
+
+            <div class="col-auto">
+              <button
+                (click)="revokeAllRefreshTokens()"
+                [disabled]="revokeAllRefreshTokensLoading"
+                mat-flat-button
+                color="warn"
+                type="button"
+              >
+                Revoke All
+              </button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="mt-3">
+        <mat-card-content>
+          <div class="row justify-content-between">
+            <div class="col-auto">
+              <h2>Delete User</h2>
+            </div>
+
+            <div class="col-auto">
+              <button (click)="deleteUser()" [disabled]="deleteUserLoading" mat-flat-button color="warn" type="button">
+                Delete
+              </button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

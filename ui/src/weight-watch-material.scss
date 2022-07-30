@@ -1,0 +1,163 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+
+// primary palette -- shades of green
+$weight-watch-primary-palette: (
+  50: #f3f8fc,
+  100: #e2eef8,
+  200: #cfe2f4,
+  300: #bcd6ef,
+  400: #adceeb,
+  500: #9fc5e8,
+  600: #97bfe5,
+  700: #8db8e2,
+  800: #83b0de,
+  900: #72a3d8,
+  A100: #ffffff,
+  A200: #ffffff,
+  A400: #eef6ff,
+  A700: #d4e9ff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #000000,
+    900: #000000,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+// accent palette -- shades of blue
+$weight-watch-accent-palette: (
+  50: #fef9f3,
+  100: #fdefe1,
+  200: #fce5ce,
+  300: #fbdbba,
+  400: #fad3ab,
+  500: #f9cb9c,
+  600: #f8c694,
+  700: #f7be8a,
+  800: #f6b880,
+  900: #f5ac6e,
+  A100: #ffffff,
+  A200: #ffffff,
+  A400: #ffffff,
+  A700: #fff5ec,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #000000,
+    900: #000000,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+// warn palette -- shades of red
+$weight-watch-warn-palette: (
+  50: #f9e0e0,
+  100: #f0b3b3,
+  200: #e68080,
+  300: #db4d4d,
+  400: #d42626,
+  500: #cc0000,
+  600: #c70000,
+  700: #c00000,
+  800: #b90000,
+  900: #ad0000,
+  A100: #ffd7d7,
+  A200: #ffa4a4,
+  A400: #ff7171,
+  A700: #ff5858,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$weight-watch-primary: mat.define-palette($weight-watch-primary-palette);
+$weight-watch-accent: mat.define-palette($weight-watch-accent-palette, 200, A100, A400);
+$weight-watch-warn: mat.define-palette($weight-watch-warn-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$weight-watch-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $weight-watch-primary,
+      accent: $weight-watch-accent,
+      warn: $weight-watch-warn,
+    ),
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($weight-watch-theme);
+
+// vertically align angular material icons in the middle so when placed
+// next to text they look correct
+// reference: https://stackoverflow.com/a/49658015
+.mat-icon {
+  vertical-align: middle;
+}
+
+// correct angular material form fields not correctly
+// vertically centering matPrefix and matSuffix labels
+// reference: https://github.com/angular/components/issues/12803
+.mat-form-field-appearance-outline .mat-form-field-prefix,
+.mat-form-field-appearance-outline .mat-form-field-suffix {
+  place-self: center;
+}
+
+// make mat-checkbox multi-line labels wrap instead of overflow their container
+// reference: https://github.com/angular/components/issues/8416#issuecomment-346380860
+.mat-checkbox-layout {
+  white-space: normal !important;
+}
+
+// make mat-slide-toggle labels wrap instead of truncating overflow to ellipsis
+.mat-slide-toggle {
+  height: unset !important;
+}
+.mat-slide-toggle-content {
+  white-space: normal !important;
+}
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();

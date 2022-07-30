@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Weight Watch</title>
+    <meta name="description" content="Weight watching application" />
+    <meta property="og:title" content="Weight Watch" />
+    <meta property="og:description" content="Weight watching application" />
+    <base href="/" />
+    <!-- 
+      we set `maximum-scale=1` in the following meta tag to disable input zoom on ios devices
+      reference: https://stackoverflow.com/a/46254706
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet" />
+    <!-- Start Single Page Apps for GitHub Pages -->
+    <script type="text/javascript">
+      // Single Page Apps for GitHub Pages
+      // MIT License
+      // https://github.com/rafgraph/spa-github-pages
+      // This script checks to see if a redirect is present in the query string,
+      // converts it back into the correct url and adds it to the
+      // browser's history using window.history.replaceState(...),
+      // which won't cause the browser to attempt to load the new url.
+      // When the single page app is loaded further down in this file,
+      // the correct url will be waiting in the browser's history for
+      // the single page app to route accordingly.
+      ;(function (l) {
+        if (l.search[1] === '/') {
+          var decoded = l.search
+            .slice(1)
+            .split('&')
+            .map(function (s) {
+              return s.replace(/~and~/g, '&')
+            })
+            .join('?')
+          window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash)
+        }
+      })(window.location)
+    </script>
+    <!-- End Single Page Apps for GitHub Pages -->
+
+    <script async defer data-collect-dnt="true" src="https://sa.weightwatchapp.com/latest.js"></script>
+    <noscript
+      ><img src="https://sa.weightwatchapp.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade"
+    /></noscript>
+  </head>
+  <body class="mat-typography">
+    <app-root></app-root>
+  </body>
+</html>

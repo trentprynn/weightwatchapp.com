@@ -1,0 +1,6 @@
+// re-define bootstrap's primary and secondary
+// colors to match our brand primary and accent colors
+$primary: #72a3d8;
+$secondary: #f5ac6e;
+
+@import 'bootstrap';

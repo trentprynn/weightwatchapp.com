@@ -1,0 +1,74 @@
+<mat-toolbar style="height: 45px">
+  <button mat-icon-button aria-label="Toggle sidenav" (click)="opened = !opened">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <a routerLink="/" class="text-decoration-none">
+    <img
+      src="/assets/image/Weight_Watch_logo_130_30.png"
+      width="130"
+      height="30"
+      class="img-responsive"
+      alt="Weight Watch Logo"
+    />
+  </a>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav [mode]="large ? 'side' : 'over'" [opened]="opened" style="min-width: 200px">
+    <mat-nav-list>
+      <!-- LOGGED IN USER NAV MENU ITEMS -->
+      <ng-container *ngIf="loggedIn | async">
+        <a routerLink="/">
+          <mat-list-item (click)="closeSideNavIfNeeded()">
+            <p matLine>Home</p>
+            <button mat-icon-button>
+              <mat-icon>home</mat-icon>
+            </button>
+          </mat-list-item>
+        </a>
+
+        <a routerLink="/user/account/settings">
+          <mat-list-item (click)="closeSideNavIfNeeded()">
+            <p matLine>Account Settings</p>
+            <button mat-icon-button>
+              <mat-icon>account_circle</mat-icon>
+            </button>
+          </mat-list-item>
+        </a>
+
+        <mat-list-item (click)="logOut()" (click)="closeSideNavIfNeeded()">
+          <p matLine>Log Out</p>
+          <button mat-icon-button>
+            <mat-icon>logout</mat-icon>
+          </button>
+        </mat-list-item>
+      </ng-container>
+
+      <!-- LOGGED OUT USER NAV MENU ITEMS -->
+      <ng-container *ngIf="(loggedIn | async) === false">
+        <a routerLink="/login">
+          <mat-list-item (click)="closeSideNavIfNeeded()">
+            <p matLine>Login</p>
+            <button mat-icon-button>
+              <mat-icon>home</mat-icon>
+            </button>
+          </mat-list-item>
+        </a>
+
+        <a routerLink="/login/register">
+          <mat-list-item (click)="closeSideNavIfNeeded()">
+            <p matLine>Register</p>
+            <button mat-icon-button>
+              <mat-icon>person_add</mat-icon>
+            </button>
+          </mat-list-item>
+        </a>
+      </ng-container>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="bg-white" style="height: calc(100vh - 45px)">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
