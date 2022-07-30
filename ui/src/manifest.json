@@ -1,0 +1,26 @@
+{
+  "name": "Weight Watch",
+  "short_name": "Weight Watch",
+  "description": "Weight Watch Application",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "type": "image/x-icon",
+      "sizes": "48x48"
+    },
+    {
+      "src": "/assets/image/Weight_Watch_block_192_192.jpg",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/assets/image/Weight_Watch_block_512_512.jpg",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "display": "browser",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
