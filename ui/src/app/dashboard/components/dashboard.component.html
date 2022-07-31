@@ -1,27 +1,105 @@
 <div class="container mt-3 p-3 bg-light rounded">
   <div class="row justify-content-center">
-    <div class="col col-md-6 col-xxl-4">
-      <mat-card *ngIf="currentUser | async as currentUser">
-        <mat-card-title>Weight Watch</mat-card-title>
+    <div class="col-12 col-md-4 col-xxl-3">
+      <mat-card>
         <mat-card-content>
-          <ul>
-            <li>
-              Current User Reference ->
-              <b
-                ><u>{{ currentUser.email }}</u></b
-              >
-            </li>
-          </ul>
+          <ng-container *ngIf="currentUser | async as currentUser">
+            <div class="row justify-content-center mt-3">
+              <div class="col-auto">
+                <h2>Hello, {{ currentUser.name ? currentUser.name : currentUser.email }}</h2>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="currentUserLoading | async">
+            <div class="row justify-content-center">
+              <div class="col-auto">
+                <div class="spinner-grow" style="width: 3rem; height: 3rem" role="status"></div>
+              </div>
+            </div>
+          </ng-container>
         </mat-card-content>
       </mat-card>
+    </div>
 
-      <ng-container *ngIf="currentUserLoading | async">
-        <div class="row justify-content-center">
-          <div class="col-auto">
-            <div class="spinner-grow" style="width: 3rem; height: 3rem" role="status"></div>
+    <div class="col-12 col-md-8 col-xxl-6">
+      <mat-card>
+        <mat-card-title>
+          <span>Weight Log</span>
+          <hr />
+        </mat-card-title>
+        <mat-card-content>
+          <ng-container *ngIf="weightLog && weightLog.length === 0">
+            <p class="text-center">No weight log entries yet, add one!</p>
+          </ng-container>
+
+          <ng-container *ngIf="weightLog && weightLog.length === 1">
+            <p class="text-center">
+              You currently only have one weight log entry stating your weight is <b>{{ weightLog[0].weight }}</b
+              >.
+            </p>
+            <p class="text-center">
+              Add another weight log when you're ready and a visualization will appear here that will show your weight
+              change over time
+            </p>
+          </ng-container>
+
+          <ng-container *ngIf="weightLog && weightLog.length > 1">
+            <div style="height: 300px; margin-right: 30px">
+              <ngx-charts-line-chart
+                [results]="weightLogFormatted"
+                [legend]="false"
+                [autoScale]="true"
+                [showYAxisLabel]="true"
+                [yAxisLabel]="'Weight'"
+                [yAxis]="true"
+                [showXAxisLabel]="true"
+                [xAxisLabel]="'Date'"
+                [xAxis]="true"
+                [curve]="curve"
+                (select)="pointSelected($event)"
+              >
+              </ngx-charts-line-chart>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="weightLogFetchError">
+            <p class="text-danger">{{ weightLogFetchError }}</p>
+          </ng-container>
+
+          <ng-container *ngIf="weightLogLoading">
+            <div class="row justify-content-center">
+              <div class="col-auto">
+                <div class="spinner-grow" style="width: 3rem; height: 3rem" role="status"></div>
+              </div>
+            </div>
+          </ng-container>
+
+          <div class="row justify-content-center mt-4">
+            <div class="col-auto">
+              <form [formGroup]="addWeightLogForm" (ngSubmit)="addWeightLog()">
+                <p><b>Add Weight Log:</b></p>
+                <div>
+                  <mat-form-field>
+                    <mat-label>Weight</mat-label>
+                    <input type="number" matInput [formControl]="addWeightLogForm.controls.weight" />
+                    <mat-error *ngIf="addWeightLogForm.controls.weight.hasError('required')"
+                      >You must enter a value</mat-error
+                    >
+                    <mat-error *ngIf="addWeightLogForm.controls.weight.hasError('min')"
+                      >You must enter a positive number</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+
+                <div>
+                  <button [disabled]="addWeightLogLoading" mat-flat-button color="primary" type="submit">Add</button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
-      </ng-container>
+        </mat-card-content>
+      </mat-card>
     </div>
   </div>
 </div>
