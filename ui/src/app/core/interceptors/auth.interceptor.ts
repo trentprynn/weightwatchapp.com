@@ -17,7 +17,7 @@ import { Token } from 'src/app/auth/types/token.type'
 export const BYPASS_AUTH = new HttpContextToken(() => false)
 
 @Injectable()
-export class AuthInterceptor implements HttpInterceptor {
+export class HttpAuthInterceptor implements HttpInterceptor {
   constructor(private tokenService: TokenService, private authService: AuthService, private router: Router) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<Object>> {

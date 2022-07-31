@@ -4,8 +4,9 @@ import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { throwError } from 'rxjs'
 import { SharedModule } from '../shared/shared.module'
-import { AuthInterceptor } from './interceptors/auth.interceptor'
-import { HttpErrorInterceptor } from './interceptors/http-error.interceptor'
+import { HttpAuthInterceptor } from './interceptors/auth.interceptor'
+import { HttpDateInterceptor } from './interceptors/date.interceptor'
+import { HttpErrorInterceptor } from './interceptors/error.interceptor'
 
 @NgModule({
   declarations: [],
@@ -13,12 +14,17 @@ import { HttpErrorInterceptor } from './interceptors/http-error.interceptor'
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
+      useClass: HttpDateInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
       multi: true,
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
+      useClass: HttpAuthInterceptor,
       multi: true,
     },
   ],
