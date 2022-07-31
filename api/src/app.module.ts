@@ -4,6 +4,7 @@ import { AppController } from './app.controller'
 import { AuthModule } from './auth/auth.module'
 import { HealthModule } from './health/health.module'
 import { UserModule } from './user/user.module'
+import { WeightLogModule } from './weight-log/weight-log.module'
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { UserModule } from './user/user.module'
     AuthModule,
     UserModule,
     HealthModule,
+    WeightLogModule,
   ],
   providers: [],
   controllers: [AppController],

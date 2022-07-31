@@ -11,17 +11,18 @@ datasource db {
 }
 
 model User {
-  userId        String         @id @default(cuid())
-  email         String         @unique
-  passwordHash  String
-  name          String?
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  refreshTokens RefreshToken[]
+  userId             String              @id @default(cuid())
+  email              String              @unique
+  passwordHash       String
+  name               String?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  refreshTokens      RefreshToken[]
+  weightActivityLogs WeightActivityLog[]
 }
 
 model RefreshToken {
-  refreshTokenHash String  
+  refreshTokenHash String
   expiration       DateTime
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
@@ -29,4 +30,13 @@ model RefreshToken {
   user             User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
 
   @@id([refreshTokenHash, userId])
+}
+
+model WeightActivityLog {
+  weightActivityLogId String   @id @default(cuid())
+  weight              Float
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  userId              String
+  user                User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }

@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Patch, Post, Req, UseGuards } from '@nestjs/common'
 
-import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard'
 import { AuthenticatedRequest } from 'src/auth/types/authenticated-request.type'
 import { CreateNewUserRequest } from '../models/create-new-user-request.class'
@@ -20,6 +20,7 @@ export class UserController {
     type: User,
   })
   @UseGuards(JwtAuthGuard)
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Get()
   async getUser(@Req() req: AuthenticatedRequest) {
     console.log('GET USER')
@@ -43,6 +44,7 @@ export class UserController {
     description: 'The updated user',
     type: User,
   })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @UseGuards(JwtAuthGuard)
   @Patch()
   async updateUser(@Req() req: AuthenticatedRequest, @Body() body: UpdateUserRequest) {
@@ -56,6 +58,7 @@ export class UserController {
     description: 'The deleted user',
     type: User,
   })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @UseGuards(JwtAuthGuard)
   @Delete()
   async deleteUser(@Req() req: AuthenticatedRequest) {
