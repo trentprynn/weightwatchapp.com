@@ -26,7 +26,11 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/404.html"
+              "src/404.html",
+              "src/manifest.json",
+              "src/sitemap.xml",
+              "src/robots.txt"
+
             ],
             "styles": [
               "src/weight-watch-material.scss",
