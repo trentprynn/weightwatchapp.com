@@ -80,11 +80,7 @@ export class DashboardComponent implements OnInit {
 
   pointSelected(data: NgxChartsDataSeriesEntry) {
     if (data.id) {
-      if (
-        confirm(
-          `Are you sure you want to delete data point with weight ${data.value} at ${data.name}? This cannot be undone`
-        )
-      ) {
+      if (confirm(`Are you sure you want to delete data point with weight ${data.value} at ${data.name}?`)) {
         this.weightLogService.deleteWeightLogEntry(data.id).subscribe({
           next: (deletedEntry: WeightLogEntry) => {
             if (this.weightLog) {
@@ -104,7 +100,20 @@ export class DashboardComponent implements OnInit {
 
   addWeightLog() {
     if (this.addWeightLogForm.valid) {
-      console.log('ADDING WEIGHT LOG')
+      // check if the user is trying to add a weight log entry when they've already added one today. If they have,
+      // show them a warning letting them know it's better to do it once per day but allow them to continue adding the
+      // log if they wish to
+      if (this.weightLog && this.weightLog.length > 0) {
+        if (this.weightLog[this.weightLog.length - 1].createdAt.toDateString() === new Date().toDateString()) {
+          if (
+            confirm(
+              `You're trying to add a weight log when you've already added one today. In general it's better to track your weight once per day at a consistent time. Are you sure you want to do this?`
+            ) !== true
+          ) {
+            return
+          }
+        }
+      }
 
       this.addWeightLogLoading = true
       this.weightLogService

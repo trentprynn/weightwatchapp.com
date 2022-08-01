@@ -35,7 +35,8 @@
 
           <ng-container *ngIf="weightLog && weightLog.length === 1">
             <p class="text-center">
-              You currently only have one weight log entry stating your weight is <b>{{ weightLog[0].weight }}</b
+              You currently only have one weight log entry showing your weight was <b>{{ weightLog[0].weight }}</b> on
+              <b>{{ weightLog[0].createdAt | date }}</b
               >.
             </p>
             <p class="text-center">
@@ -57,6 +58,7 @@
                 [xAxisLabel]="'Date'"
                 [xAxis]="true"
                 [curve]="curve"
+                [roundDomains]="true"
                 (select)="pointSelected($event)"
               >
               </ngx-charts-line-chart>
@@ -75,7 +77,7 @@
             </div>
           </ng-container>
 
-          <div class="row justify-content-center mt-4">
+          <div class="row justify-content-center mt-5">
             <div class="col-auto">
               <form [formGroup]="addWeightLogForm" (ngSubmit)="addWeightLog()">
                 <p><b>Add Weight Log:</b></p>
