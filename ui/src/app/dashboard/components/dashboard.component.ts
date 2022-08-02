@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
 
   displayedColumns: string[] = ['weight', 'createdAt', 'action']
   weightTableData = new MatTableDataSource<WeightLogEntry>()
-  chartView: boolean = false
+  chartView: boolean = true
 
   @ViewChild(BaseChartDirective) weightChart?: BaseChartDirective | undefined = undefined
   weightChartData: ChartConfiguration['data'] = {
