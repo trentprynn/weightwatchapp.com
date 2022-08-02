@@ -33,36 +33,15 @@
             <p class="text-center">No weight log entries yet, add one!</p>
           </ng-container>
 
-          <ng-container *ngIf="weightLog && weightLog.length === 1">
-            <p class="text-center">
-              You currently only have one weight log entry showing your weight was <b>{{ weightLog[0].weight }}</b> on
-              <b>{{ weightLog[0].createdAt | date }}</b
-              >.
-            </p>
-            <p class="text-center">
-              Add another weight log when you're ready and a visualization will appear here that will show your weight
-              change over time
-            </p>
-          </ng-container>
-
-          <ng-container *ngIf="weightLog && weightLog.length > 1">
-            <div style="height: 300px">
-              <ngx-charts-line-chart
-                [results]="weightLogFormatted"
-                [legend]="false"
-                [autoScale]="true"
-                [showYAxisLabel]="true"
-                [yAxisLabel]="'Weight'"
-                [yAxis]="true"
-                [showXAxisLabel]="true"
-                [xAxisLabel]="'Date'"
-                [xAxis]="true"
-                [curve]="curve"
-                [roundDomains]="true"
-                (select)="pointSelected($event)"
-              >
-              </ngx-charts-line-chart>
-            </div>
+          <ng-container *ngIf="weightLog && weightLog.length > 0">
+            <canvas
+              baseChart
+              [data]="weightChartData"
+              [options]="{ elements: { line: { tension: 0.5 } } }"
+              (chartClick)="chartClicked($event)"
+              type="line"
+            >
+            </canvas>
           </ng-container>
 
           <ng-container *ngIf="weightLogFetchError">

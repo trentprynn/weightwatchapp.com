@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
-import { NgxChartsModule } from '@swimlane/ngx-charts'
+import { NgChartsModule } from 'ng2-charts'
 import { MaterialSharedModule } from './material/material-shared.module'
 @NgModule({
   providers: [DatePipe],
@@ -15,7 +15,7 @@ import { MaterialSharedModule } from './material/material-shared.module'
     ReactiveFormsModule,
     RouterModule,
     NgbModule,
-    NgxChartsModule,
+    NgChartsModule,
   ],
   exports: [
     MaterialSharedModule,
@@ -24,7 +24,7 @@ import { MaterialSharedModule } from './material/material-shared.module'
     ReactiveFormsModule,
     RouterModule,
     NgbModule,
-    NgxChartsModule,
+    NgChartsModule,
   ],
 })
 export class SharedModule {}
