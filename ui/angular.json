@@ -24,26 +24,20 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
               "src/assets",
+              "src/apple-touch-icon.png",
+              "src/favicon.ico",
               "src/404.html",
               "src/manifest.json",
               "src/sitemap.xml",
               "src/robots.txt"
-
             ],
             "styles": [
               "src/weight-watch-material.scss",
               "src/weight-watch-bootstrap.scss",
               "src/styles.scss"
             ],
-            "scripts": [],
-            "allowedCommonJsDependencies": [
-              "xlsx",
-              "moment-timezone",
-              "core-js",
-              "raf"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
