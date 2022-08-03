@@ -6,6 +6,9 @@ Weight Watch is a free, open source web application for tracking your weight ove
 ## Why
 I wanted an free, lightweight website where I can track weight gain / loss progress easily and securely while also being able to understand how my data was being processed and stored.
 
+## Show me
+![Weight Watch home page once a user has logged in and logged their weight for a couple days](https://weightwatchapp.com/assets/image/Weight_Watch_home_1440_700.png)
+
 ## Local Development
 1. Install docker
 2. Install `node@16.X` (probably using `nvm`)
