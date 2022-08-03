@@ -128,7 +128,7 @@ export class DashboardComponent implements OnInit {
         data: this.weightLog.map((w) => w.weight),
 
         pointBackgroundColor: 'rgba(0,0,0)',
-        pointHoverBorderColor: 'rgba(255,255,255)',
+        pointHoverBackgroundColor: 'rgba(114, 163, 216)',
         label: 'weight',
         fill: 'origin',
       }

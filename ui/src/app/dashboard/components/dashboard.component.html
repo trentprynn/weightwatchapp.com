@@ -31,7 +31,12 @@
             </div>
 
             <div class="col-auto">
-              <button type="button" mat-icon-button (click)="chartView = !chartView" [disabled]="!weightLog || weightLog.length === 0">
+              <button
+                type="button"
+                mat-icon-button
+                (click)="chartView = !chartView"
+                [disabled]="!weightLog || weightLog.length === 0"
+              >
                 <mat-icon>{{ chartView ? 'show_chart' : 'list' }}</mat-icon>
               </button>
             </div>
@@ -49,7 +54,11 @@
               <canvas
                 baseChart
                 [data]="weightChartData"
-                [options]="{ elements: { line: { tension: 0.5 } } }"
+                [options]="{
+                  elements: { line: { tension: 0.5 } },
+                  interaction: { intersect: false },
+                  scales: { y: { grace: '50%' } }
+                }"
                 type="line"
               >
               </canvas>
@@ -104,7 +113,7 @@
                 <div>
                   <mat-form-field>
                     <mat-label>Weight</mat-label>
-                    <input type="number" matInput [formControl]="addWeightLogForm.controls.weight" />
+                    <input matInput [formControl]="addWeightLogForm.controls.weight" type="number" autocomplete="off" />
                     <mat-error *ngIf="addWeightLogForm.controls.weight.hasError('required')"
                       >You must enter a value</mat-error
                     >
