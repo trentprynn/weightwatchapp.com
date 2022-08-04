@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { AuthGuard } from '../auth/guards/auth.guard'
 import { SharedModule } from '../shared/shared.module'
+import { WeightLogModule } from '../weight-log/weight-log.module'
 import { DashboardComponent } from './components/dashboard.component'
 
 const routes: Routes = [
@@ -15,7 +16,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [DashboardComponent],
-  imports: [SharedModule, RouterModule.forChild(routes)],
+  imports: [SharedModule, RouterModule.forChild(routes), WeightLogModule],
   providers: [],
 })
 export class DashboardModule {}
