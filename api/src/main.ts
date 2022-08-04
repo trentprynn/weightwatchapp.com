@@ -7,7 +7,10 @@ import { AppModule } from './app.module'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
   app.setGlobalPrefix('v1', {
-    exclude: [{ path: '', method: RequestMethod.GET }],
+    exclude: [
+      { path: '', method: RequestMethod.GET },
+      { path: 'health', method: RequestMethod.GET },
+    ],
   })
   app.use(helmet())
   app.useGlobalPipes(
