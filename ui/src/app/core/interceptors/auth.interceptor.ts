@@ -82,7 +82,7 @@ export class HttpAuthInterceptor implements HttpInterceptor {
           // failed to refresh auth token for some reason, log user out
           // so they can fetch a new auth token by logging in.
           if (error.status === 400) {
-            this.authService.logOut()
+            this.authService.logOut(false)
           }
 
           return throwError(() => error)

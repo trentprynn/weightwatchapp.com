@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable, ReplaySubject, throwError } from 'rxjs'
-import { first, switchMap } from 'rxjs/operators'
+import { catchError, first, switchMap } from 'rxjs/operators'
 import { BYPASS_AUTH } from 'src/app/core/interceptors/auth.interceptor'
 import { environment } from 'src/environments/environment'
 import { Token } from '../types/token.type'
@@ -53,10 +53,65 @@ export class AuthService {
       )
   }
 
-  public logOut(): void {
-    this.tokenService.removeToken().subscribe(() => {
-      location.href = '/login'
-    })
+  public async logOut(revokeRefreshToken: boolean = true) {
+    this.tokenService.token
+      .pipe(first())
+      .pipe(
+        switchMap((token) => {
+          // grab the user's access token info from local storage
+          if (token && revokeRefreshToken) {
+            // attempt to revoke the user's refresh token if it exists and the called didn't ask us not to
+            return this.http
+              .delete(`${environment.apiUrl}/auth/refresh-token`, {
+                body: {
+                  refresh_token: token.refresh_token,
+                },
+              })
+              .pipe(
+                switchMap((_) => {
+                  // successfully revoked refresh token, map API return value to simple true boolean
+                  return new Observable((observable) => {
+                    observable.next(true)
+                    observable.complete()
+                  })
+                })
+              )
+              .pipe(
+                catchError((_) => {
+                  // if we fail to revoke refresh token for any reason, just collapse the result to false and move on
+                  return new Observable((observable) => {
+                    observable.next(false)
+                    observable.complete()
+                  })
+                })
+              )
+          } else {
+            // no token found or caller asked us to skip revoking the token (skipping token revocation is use
+            // when you're doing something like deleting the user's account as all tokens will inherently be revoked
+            // by the delete action)
+            return new Observable((observable) => {
+              observable.next(false)
+              observable.complete()
+            })
+          }
+        })
+      )
+      .pipe(
+        switchMap((_) => {
+          // no matter the result of the api revocation action, remove the token from the user's
+          // local storage
+          return this.tokenService.removeToken()
+        })
+      )
+      .subscribe((_) => {
+        // the user has now hopefully had their refresh token revoked and removed from local storage so it
+        // can't be used any more
+
+        // navigate the user back to the login page, we do this using location.href (hard navigation instead of
+        // client side navigation) so any services etc are cleared without them having to specifically for
+        // a user log out event
+        location.href = '/login'
+      })
   }
 
   public refreshToken(): Observable<Token> {

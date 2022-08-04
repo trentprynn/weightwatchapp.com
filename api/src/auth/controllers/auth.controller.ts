@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Post, Req, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Post, Req, UseGuards } from '@nestjs/common'
 
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { JwtAuthGuard } from '../guards/jwt-auth.guard'
@@ -29,21 +29,24 @@ export class AuthController {
   }
 
   @ApiBearerAuth()
+  @ApiOperation({ summary: `Delete a refresh token for the calling user` })
+  @ApiResponse({ status: 200, description: 'Refresh token successfully deleted' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @UseGuards(JwtAuthGuard)
+  @Delete('refresh-token')
+  async deleteRefreshToken(@Req() req: AuthenticatedRequest, @Body() body: RefreshTokenRequest) {
+    console.log(`DELETING REFRESH TOKEN`)
+    return this.authService.deleteRefreshTokenForUser(req.user.id, body.refresh_token)
+  }
+
+  @ApiBearerAuth()
   @ApiOperation({ summary: `Delete all refresh tokens for the calling user` })
+  @ApiResponse({ status: 200, description: 'All refresh tokens deleted' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @UseGuards(JwtAuthGuard)
   @Delete('refresh-tokens')
   async deleteAllRefreshTokens(@Req() req: AuthenticatedRequest) {
-    console.log(`DELETING REFRESH TOKENS`)
+    console.log(`DELETING ALL REFRESH TOKENS FOR USER`)
     return this.authService.deleteAllRefreshTokensForUser(req.user.id)
-  }
-
-  @ApiBearerAuth()
-  @ApiOperation({ summary: `Delete a single refresh tokens for the calling user` })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @UseGuards(JwtAuthGuard)
-  @Delete('refresh-tokens/:refreshTokenHash')
-  async deleteRefreshToken(@Req() req: AuthenticatedRequest, @Param('refreshTokenHash') refreshTokenHash: string) {
-    console.log(`DELETING REFRESH TOKEN ${refreshTokenHash}`)
   }
 }

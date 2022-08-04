@@ -74,7 +74,7 @@ export class AccountSettingsComponent implements OnInit {
         .revokeAllRefreshTokens()
         .subscribe({
           next: () => {
-            this.authService.logOut()
+            this.authService.logOut(false)
           },
           error: (error: HttpErrorResponse) => {
             this.snackBar.open(error.error.message, 'ok', {
@@ -95,7 +95,7 @@ export class AccountSettingsComponent implements OnInit {
         .deleteUser()
         .subscribe({
           next: () => {
-            this.authService.logOut()
+            this.authService.logOut(false)
           },
           error: (error: HttpErrorResponse) => {
             this.snackBar.open(error.error.message, 'ok', {
