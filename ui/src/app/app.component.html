@@ -15,7 +15,7 @@
 </mat-toolbar>
 
 <mat-sidenav-container>
-  <mat-sidenav [mode]="large ? 'side' : 'over'" [(opened)]="opened" [autoFocus]="false" style="min-width: 200px">
+  <mat-sidenav [mode]="large ? 'side' : 'over'" [(opened)]="opened" [autoFocus]="false" style="width: 220px">
     <mat-nav-list>
       <!-- LOGGED IN USER NAV MENU ITEMS -->
       <ng-container *ngIf="loggedIn | async">
@@ -81,7 +81,7 @@
     </mat-nav-list>
   </mat-sidenav>
 
-  <mat-sidenav-content class="bg-white" style="height: calc(100vh - 45px)">
+  <mat-sidenav-content class="bg-white" style="height: calc(100% - 45px)">
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
