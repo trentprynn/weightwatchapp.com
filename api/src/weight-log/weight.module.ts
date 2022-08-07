@@ -7,4 +7,4 @@ import { WeightLogService } from './services/weight-log.service'
   exports: [WeightLogService],
   controllers: [WeightLogController],
 })
-export class WeightLogModule {}
+export class WeightModule {}

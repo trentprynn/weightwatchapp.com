@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import * as bcrypt from 'bcrypt'
 import { prisma } from 'prisma/client'
-import { UpdateUserRequest } from '../models/update-user-request.class'
-import { User } from '../models/user.class'
+import { UpdateUserDTO } from '../dtos/update-user.dto'
+import { UserEntity } from '../entities/user.entity'
 
 @Injectable()
 export class UserService {
@@ -17,10 +17,12 @@ export class UserService {
       throw new NotFoundException(`User with email '${email}' not found`)
     }
 
-    const returnUser: User = {
+    const returnUser: UserEntity = {
       userId: user.userId,
       email: user.email,
       name: user.name,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
     }
 
     return returnUser
@@ -37,10 +39,12 @@ export class UserService {
       throw new NotFoundException(`User with userId '${userId}' not found`)
     }
 
-    const returnUser: User = {
+    const returnUser: UserEntity = {
       userId: user.userId,
       email: user.email,
       name: user.name,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
     }
 
     return returnUser
@@ -64,16 +68,18 @@ export class UserService {
       },
     })
 
-    const returnUser: User = {
+    const returnUser: UserEntity = {
       userId: createdUser.userId,
       email: createdUser.email,
       name: createdUser.name,
+      createdAt: createdUser.createdAt,
+      updatedAt: createdUser.updatedAt,
     }
 
     return returnUser
   }
 
-  public async updateUser(userId: string, updatedUser: UpdateUserRequest) {
+  public async updateUser(userId: string, updatedUser: UpdateUserDTO) {
     const userWithUpdatedUserEmail = await prisma.user.findFirst({
       where: {
         email: updatedUser.email,
@@ -95,10 +101,12 @@ export class UserService {
       },
     })
 
-    const returnUser: User = {
+    const returnUser: UserEntity = {
       userId: modifiedUser.userId,
       email: modifiedUser.email,
       name: modifiedUser.name,
+      createdAt: modifiedUser.createdAt,
+      updatedAt: modifiedUser.updatedAt,
     }
 
     return returnUser
@@ -111,10 +119,12 @@ export class UserService {
       },
     })
 
-    const returnUser: User = {
+    const returnUser: UserEntity = {
       userId: deletedUser.userId,
       email: deletedUser.email,
       name: deletedUser.name,
+      createdAt: deletedUser.createdAt,
+      updatedAt: deletedUser.updatedAt,
     }
 
     return returnUser

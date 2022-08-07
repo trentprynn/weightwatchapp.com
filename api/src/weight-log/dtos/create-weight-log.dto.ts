@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsNotEmpty } from 'class-validator'
 
-export class CreateWeightLogRequest {
+export class CreateWeightLogDTO {
   @ApiProperty()
   @IsNotEmpty()
   weight: number

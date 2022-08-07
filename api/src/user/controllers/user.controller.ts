@@ -1,11 +1,11 @@
-import { Body, Controller, Delete, Get, Patch, Post, Req, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Post, Put, Req, UseGuards } from '@nestjs/common'
 
 import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard'
 import { AuthenticatedRequest } from 'src/auth/types/authenticated-request.type'
-import { CreateNewUserRequest } from '../models/create-new-user-request.class'
-import { UpdateUserRequest } from '../models/update-user-request.class'
-import { User } from '../models/user.class'
+import { CreateNewUserDTO } from '../dtos/create-new-user.dto'
+import { UpdateUserDTO } from '../dtos/update-user.dto'
+import { UserEntity } from '../entities/user.entity'
 import { UserService } from '../services/user.service'
 
 @ApiTags('user')
@@ -17,7 +17,7 @@ export class UserController {
   @ApiOperation({ summary: `Get the calling user's information such as email` })
   @ApiOkResponse({
     description: 'The user',
-    type: User,
+    type: UserEntity,
   })
   @UseGuards(JwtAuthGuard)
   @ApiResponse({ status: 401, description: 'Unauthorized' })
@@ -30,33 +30,33 @@ export class UserController {
   @ApiOperation({ summary: `Create a new user` })
   @ApiOkResponse({
     description: 'The new user',
-    type: User,
+    type: UserEntity,
   })
   @Post()
-  async createUser(@Req() req: AuthenticatedRequest, @Body() body: CreateNewUserRequest) {
+  async createUser(@Req() req: AuthenticatedRequest, @Body() body: CreateNewUserDTO) {
     console.log('CREATE USER')
     return this.userService.createUser(body.email, body.password)
   }
 
   @ApiBearerAuth()
-  @ApiOperation({ summary: `Update the calling user's information` })
+  @ApiOperation({ summary: `Update user information` })
   @ApiOkResponse({
     description: 'The updated user',
-    type: User,
+    type: UserEntity,
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @UseGuards(JwtAuthGuard)
-  @Patch()
-  async updateUser(@Req() req: AuthenticatedRequest, @Body() body: UpdateUserRequest) {
+  @Put()
+  async updateUser(@Req() req: AuthenticatedRequest, @Body() body: UpdateUserDTO) {
     console.log('UPDATE USER')
     return this.userService.updateUser(req.user.id, body)
   }
 
   @ApiBearerAuth()
-  @ApiOperation({ summary: `Delete the calling user's account` })
+  @ApiOperation({ summary: `Delete account` })
   @ApiOkResponse({
     description: 'The deleted user',
-    type: User,
+    type: UserEntity,
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @UseGuards(JwtAuthGuard)

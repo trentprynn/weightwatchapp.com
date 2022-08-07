@@ -1,0 +1,232 @@
+<div class="container mt-3 p-3 bg-light rounded">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-6 col-xxl-4">
+      <mat-card class="mb-3">
+        <mat-card-title>
+          <h2>Add Activity</h2>
+          <hr />
+        </mat-card-title>
+
+        <mat-card-content>
+          <form [formGroup]="addActivityForm" (ngSubmit)="addActivity()">
+            <div>
+              <mat-form-field>
+                <mat-label>Activity Name</mat-label>
+                <input matInput [formControl]="addActivityForm.controls.activityName" />
+                <mat-error *ngIf="addActivityForm.controls.activityName.hasError('required')"
+                  >You must enter a value</mat-error
+                >
+              </mat-form-field>
+            </div>
+
+            <div>
+              <mat-form-field>
+                <mat-label>Activity Icon</mat-label>
+                <mat-select [formControl]="addActivityForm.controls.activityIconName">
+                  <mat-select-trigger>
+                    <mat-icon>{{ addActivityForm.controls.activityIconName.value }}</mat-icon>
+                  </mat-select-trigger>
+                  <mat-option value="directions_walk" class="text-center">
+                    <mat-icon>directions_walk</mat-icon>
+                  </mat-option>
+                  <mat-option value="directions_bike" class="text-center">
+                    <mat-icon>directions_bike</mat-icon>
+                  </mat-option>
+                  <mat-option value="pool" class="text-center">
+                    <mat-icon>pool</mat-icon>
+                  </mat-option>
+                  <mat-option value="help" class="text-center">
+                    <mat-icon>help</mat-icon>
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="addActivityForm.controls.activityIconName.hasError('required')"
+                  >You must select an icon</mat-error
+                >
+              </mat-form-field>
+            </div>
+
+            <div>
+              <button [disabled]="addActivityLoading" mat-flat-button color="primary" type="submit">
+                Add Activity
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="mb-3">
+        <mat-card-title>
+          <h2>My Activities</h2>
+          <hr />
+        </mat-card-title>
+
+        <mat-card-content>
+          <ng-container *ngIf="activitiesLoading">
+            <div class="row justify-content-center">
+              <div class="col-auto">
+                <div class="spinner-grow" style="width: 3rem; height: 3rem" role="status"></div>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="activitiesFetchError">
+            <p class="text-danger">{{ activitiesFetchError }}</p>
+          </ng-container>
+
+          <ng-container *ngIf="activities && activities.length === 0">
+            <p class="text-center">You don't have any activities yet, add one!</p>
+          </ng-container>
+
+          <ng-container *ngIf="activities && activities.length > 0">
+            <ng-container *ngFor="let activity of activities">
+              <div class="row justify-content-between">
+                <div class="col-auto d-flex align-items-end">
+                  <p>
+                    <mat-icon class="me-3">{{ activity.iconName }}</mat-icon>
+                    <b>{{ activity.name }}</b>
+                  </p>
+                </div>
+
+                <div class="col-auto">
+                  <button type="button" color="warn" mat-icon-button (click)="deleteActivity(activity)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-12 col-md-8 col-xxl-6 mb-3">
+      <mat-card>
+        <mat-card-title>
+          <h2>Activity Log</h2>
+          <hr />
+        </mat-card-title>
+
+        <mat-card-content>
+          <ng-container *ngIf="activityLogsLoading">
+            <div class="row justify-content-center">
+              <div class="col-auto">
+                <div class="spinner-grow" style="width: 3rem; height: 3rem" role="status"></div>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="activityLogs && activityLogs.length === 0">
+            <p class="text-center">You don't have any activity logs yet, add one!</p>
+          </ng-container>
+
+          <ng-container *ngIf="activities && activities.length === 0">
+            <p class="text-center"><b>Note:</b> you'll need to add an activity before you can add an activity log</p>
+          </ng-container>
+
+          <ng-container *ngIf="activityLogs && activityLogs.length > 0">
+            <table mat-table [dataSource]="activityLogTableData" class="mat-elevation-z8 w-100">
+              <ng-container matColumnDef="activityName">
+                <th mat-header-cell *matHeaderCellDef>Activity</th>
+                <td mat-cell *matCellDef="let activityLog">
+                  <mat-icon class="me-3">{{ activityLog.activity.iconName }}</mat-icon
+                  >{{ activityLog.activity.name }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="activityDate">
+                <th mat-header-cell *matHeaderCellDef>Activity Date</th>
+                <td mat-cell *matCellDef="let activityLog">{{ activityLog.activityDate | date }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="length">
+                <th mat-header-cell *matHeaderCellDef>length (mins)</th>
+                <td mat-cell *matCellDef="let activityLog">{{ activityLog.lengthInSeconds / 60 }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef>Action</th>
+                <td mat-cell *matCellDef="let activityLog">
+                  <button type="button" color="warn" mat-icon-button (click)="deleteActivityLog(activityLog)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="activityLogTableDisplayColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: activityLogTableDisplayColumns"></tr>
+            </table>
+          </ng-container>
+
+          <div class="row justify-content-center mt-4">
+            <div class="col-auto">
+              <form [formGroup]="addActivityLogForm" (ngSubmit)="addActivityLog()">
+                <p><b>Add Activity Log:</b></p>
+
+                <div>
+                  <mat-form-field class="w-100">
+                    <mat-label>Activity</mat-label>
+                    <mat-select [formControl]="addActivityLogForm.controls.activity">
+                      <mat-select-trigger *ngIf="addActivityLogForm.controls.activity.value">
+                        <span
+                          ><mat-icon class="me-2">{{ addActivityLogForm.controls.activity.value.iconName }}</mat-icon
+                          >{{ addActivityLogForm.controls.activity.value.name }}</span
+                        >
+                      </mat-select-trigger>
+                      <mat-option *ngFor="let activity of activities" [value]="activity">
+                        <span
+                          ><mat-icon>{{ activity.iconName }}</mat-icon
+                          >{{ activity.name }}</span
+                        >
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="addActivityLogForm.controls.activity.hasError('required')"
+                      >You must select an activity</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+
+                <div>
+                  <mat-form-field class="w-100">
+                    <mat-label>Activity Time (minutes)</mat-label>
+                    <input
+                      matInput
+                      [formControl]="addActivityLogForm.controls.activityLengthMinutes"
+                      type="number"
+                      autocomplete="off"
+                    />
+                    <mat-error *ngIf="addActivityLogForm.controls.activityLengthMinutes.hasError('required')"
+                      >You must enter a value</mat-error
+                    >
+                    <mat-error *ngIf="addActivityLogForm.controls.activityLengthMinutes.hasError('min')"
+                      >You must enter a positive number</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+
+                <div>
+                  <mat-form-field class="w-100">
+                    <mat-label>Activity Date</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="datepicker"
+                      [formControl]="addActivityLogForm.controls.activityDate"
+                    />
+                    <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                    <mat-datepicker #datepicker></mat-datepicker>
+                    <mat-error *ngIf="addActivityLogForm.controls.activityDate.hasError('required')"
+                      >You must choose a value</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+
+                <div>
+                  <button [disabled]="addActivityLogLoading" mat-flat-button color="primary" type="submit">Add</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

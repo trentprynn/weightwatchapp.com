@@ -50,11 +50,11 @@ export class UserService {
       })
   }
 
-  public updateUser(email: string, name: string | null) {
+  public updateUser(newEmail: string, newName: string | null) {
     return this.http
-      .patch<User>(`${environment.apiUrl}/user`, {
-        email: email,
-        name: name,
+      .put<User>(`${environment.apiUrl}/user`, {
+        email: newEmail,
+        name: newName,
       })
       .pipe(
         tap((updatedUser) => {

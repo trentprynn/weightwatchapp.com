@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
+import { ActivityModule } from './activity/activity.module'
 import { AppController } from './app.controller'
 import { AuthModule } from './auth/auth.module'
 import { UserModule } from './user/user.module'
-import { WeightLogModule } from './weight-log/weight-log.module'
+import { WeightModule } from './weight-log/weight.module'
 
 @Module({
   imports: [
@@ -12,7 +13,8 @@ import { WeightLogModule } from './weight-log/weight-log.module'
     }),
     AuthModule,
     UserModule,
-    WeightLogModule,
+    WeightModule,
+    ActivityModule,
   ],
   providers: [],
   controllers: [AppController],

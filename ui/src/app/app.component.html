@@ -20,7 +20,11 @@
       <!-- LOGGED IN USER NAV MENU ITEMS -->
       <ng-container *ngIf="loggedIn | async">
         <a routerLink="/">
-          <mat-list-item (click)="closeSideNavIfNeeded()">
+          <mat-list-item
+            (click)="closeSideNavIfNeeded()"
+            routerLinkActive="text-primary"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
             <p matLine>Home</p>
             <button mat-icon-button>
               <mat-icon>home</mat-icon>
@@ -28,8 +32,17 @@
           </mat-list-item>
         </a>
 
-        <a routerLink="/user/account/settings">
-          <mat-list-item (click)="closeSideNavIfNeeded()">
+        <a routerLink="/activity">
+          <mat-list-item (click)="closeSideNavIfNeeded()" routerLinkActive="text-primary">
+            <p matLine>Activity</p>
+            <button mat-icon-button>
+              <mat-icon>directions_walk</mat-icon>
+            </button>
+          </mat-list-item>
+        </a>
+
+        <a routerLink="/user/settings">
+          <mat-list-item (click)="closeSideNavIfNeeded()" routerLinkActive="text-primary">
             <p matLine>Account Settings</p>
             <button mat-icon-button>
               <mat-icon>account_circle</mat-icon>

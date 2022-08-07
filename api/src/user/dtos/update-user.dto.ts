@@ -1,17 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { IsEmail, IsNotEmpty } from 'class-validator'
 
-export class User {
+export class UpdateUserDTO {
   @ApiProperty()
-  userId: string
-
-  @ApiProperty()
+  @IsNotEmpty()
+  @IsEmail()
   email: string
 
   @ApiProperty({ type: String, nullable: true })
   name: string | null
 
-  constructor(userId: string, email: string, name: string | null) {
-    this.userId = userId
+  constructor(email: string, name: string | null) {
     this.email = email
     this.name = name
   }

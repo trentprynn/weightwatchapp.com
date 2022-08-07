@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
 import { MatCheckboxModule, MAT_CHECKBOX_DEFAULT_OPTIONS } from '@angular/material/checkbox'
 import { MatChipsModule } from '@angular/material/chips'
-import { MatRippleModule } from '@angular/material/core'
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatDialogConfig, MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog'
 import { MatExpansionModule } from '@angular/material/expansion'
@@ -41,6 +41,7 @@ import { MatTooltipModule } from '@angular/material/tooltip'
     MatCardModule,
     MatProgressBarModule,
     MatDatepickerModule,
+    MatNativeDateModule,
     MatSelectModule,
     MatRadioModule,
     MatStepperModule,
@@ -70,6 +71,7 @@ import { MatTooltipModule } from '@angular/material/tooltip'
     MatCardModule,
     MatProgressBarModule,
     MatDatepickerModule,
+    MatNativeDateModule,
     MatSelectModule,
     MatRadioModule,
     MatStepperModule,

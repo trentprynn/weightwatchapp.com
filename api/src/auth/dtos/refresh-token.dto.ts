@@ -1,9 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsNotEmpty } from 'class-validator'
+import { IsNotEmpty, IsString } from 'class-validator'
 
-export class RefreshTokenRequest {
+export class RefreshTokenDTO {
   @ApiProperty()
   @IsNotEmpty()
+  @IsString()
   refresh_token: string
 
   constructor(refresh_token: string) {

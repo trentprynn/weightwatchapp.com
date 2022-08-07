@@ -19,6 +19,8 @@ model User {
   updatedAt          DateTime            @updatedAt
   refreshTokens      RefreshToken[]
   weightActivityLogs WeightActivityLog[]
+  activities         Activity[]
+  activityLogs       ActivityLog[]
 }
 
 model RefreshToken {
@@ -39,4 +41,27 @@ model WeightActivityLog {
   updatedAt           DateTime @updatedAt
   userId              String
   user                User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
+}
+
+model Activity {
+  activityId   String        @id @default(cuid())
+  name         String
+  iconName     String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  userId       String
+  user         User          @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  activityLogs ActivityLog[]
+}
+
+model ActivityLog {
+  activityLogId   String   @id @default(cuid())
+  activityDate    DateTime
+  lengthInSeconds Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  activityId      String
+  activity        Activity @relation(fields: [activityId], references: [activityId], onDelete: Cascade)
+  userId          String
+  user            User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }

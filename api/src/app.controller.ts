@@ -5,7 +5,7 @@ import { ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagg
 @ApiTags('default')
 @Controller('')
 export class AppController {
-  @ApiOperation({ summary: `Redirects from the root path to the API documentation` })
+  @ApiOperation({ summary: `Redirect from the root path to the API documentation` })
   @ApiResponse({ status: 302, description: 'redirection url' })
   @Get()
   @Redirect('api-docs', 302)
