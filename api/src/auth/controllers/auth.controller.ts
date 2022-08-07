@@ -21,7 +21,6 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Bad request' })
   @Post('login')
   async login(@Body() body: LoginDTO) {
-    console.log('GENERATING NEW AUTH TOKEN')
     return this.authService.validateLoginAndGenerateAuthToken(body.email, body.password)
   }
 
@@ -40,7 +39,9 @@ export class AuthController {
   @ApiBearerAuth()
   @ApiOperation({ summary: `Delete a refresh token` })
   @ApiResponse({ status: 200, description: 'Refresh token successfully deleted' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 404, description: 'Not Found' })
   @UseGuards(JwtAuthGuard)
   @Delete('refresh-token')
   async deleteRefreshToken(@Req() req: AuthenticatedRequest, @Body() body: RefreshTokenDTO) {

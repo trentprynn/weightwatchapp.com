@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { IsDate, IsEmail, IsString } from 'class-validator'
 
 // note: this entity purposefully does not implement the prisma.User generated type as that
-//       type contains the user's password hash which we do not want to return
+//       type contains the user's password hash which we never want to return to the user
 export class UserEntity {
   @ApiProperty()
   @IsString()

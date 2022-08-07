@@ -13,29 +13,30 @@ import { UserService } from '../services/user.service'
 export class UserController {
   constructor(private userService: UserService) {}
 
+  @ApiOperation({ summary: `Create a new user` })
+  @ApiOkResponse({
+    description: 'The new user',
+    type: UserEntity,
+  })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @Post()
+  async createUser(@Body() body: CreateNewUserDTO) {
+    console.log('CREATE USER')
+    return this.userService.createUser(body.email, body.password)
+  }
+
   @ApiBearerAuth()
   @ApiOperation({ summary: `Get the calling user's information such as email` })
   @ApiOkResponse({
     description: 'The user',
     type: UserEntity,
   })
-  @UseGuards(JwtAuthGuard)
   @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @UseGuards(JwtAuthGuard)
   @Get()
   async getUser(@Req() req: AuthenticatedRequest) {
     console.log('GET USER')
     return this.userService.findUserById(req.user.id)
-  }
-
-  @ApiOperation({ summary: `Create a new user` })
-  @ApiOkResponse({
-    description: 'The new user',
-    type: UserEntity,
-  })
-  @Post()
-  async createUser(@Req() req: AuthenticatedRequest, @Body() body: CreateNewUserDTO) {
-    console.log('CREATE USER')
-    return this.userService.createUser(body.email, body.password)
   }
 
   @ApiBearerAuth()
@@ -44,6 +45,7 @@ export class UserController {
     description: 'The updated user',
     type: UserEntity,
   })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @UseGuards(JwtAuthGuard)
   @Put()
