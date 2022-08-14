@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Req, UseGuards } from '@nestjs/common'
 
-import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard'
 import { AuthenticatedRequest } from 'src/auth/types/authenticated-request.type'
 import { CreateWeightLogDTO } from '../dtos/create-weight-log.dto'
@@ -14,7 +14,7 @@ export class WeightLogController {
 
   @ApiBearerAuth()
   @ApiOperation({ summary: `Create a new weight log entry for the calling user` })
-  @ApiOkResponse({
+  @ApiCreatedResponse({
     description: 'The newly created weight log entry',
     type: WeightActivityLogEntity,
   })

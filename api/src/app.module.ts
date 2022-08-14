@@ -4,7 +4,7 @@ import { ActivityModule } from './activity/activity.module'
 import { AppController } from './app.controller'
 import { AuthModule } from './auth/auth.module'
 import { UserModule } from './user/user.module'
-import { WeightModule } from './weight-log/weight.module'
+import { WeightModule } from './weight/weight.module'
 
 @Module({
   imports: [

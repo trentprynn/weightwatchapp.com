@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Post, Put, Req, UseGuards } from '@nestjs/common'
 
-import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard'
 import { AuthenticatedRequest } from 'src/auth/types/authenticated-request.type'
 import { CreateNewUserDTO } from '../dtos/create-new-user.dto'
@@ -14,7 +14,7 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @ApiOperation({ summary: `Create a new user` })
-  @ApiOkResponse({
+  @ApiCreatedResponse({
     description: 'The new user',
     type: UserEntity,
   })
