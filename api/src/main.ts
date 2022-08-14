@@ -6,22 +6,25 @@ import { AppModule } from './app.module'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
+
   app.setGlobalPrefix('v1', {
     exclude: [
       { path: '', method: RequestMethod.GET },
       { path: 'health', method: RequestMethod.GET },
     ],
   })
+
   app.use(helmet())
+
+  app.enableCors({
+    origin: ['http://localhost:4200', 'https://weightwatchapp.com'],
+  })
+
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
     })
   )
-
-  app.enableCors({
-    origin: ['http://localhost:4200', 'https://weightwatchapp.com'],
-  })
 
   const config = new DocumentBuilder()
     .setTitle('Weight Watch API')
@@ -30,7 +33,9 @@ async function bootstrap() {
     .addBearerAuth()
     .build()
   const document = SwaggerModule.createDocument(app, config)
-  SwaggerModule.setup('api-docs', app, document)
+  SwaggerModule.setup('api-docs', app, document, {
+    customSiteTitle: 'WeightWatch API Docs',
+  })
 
   await app.listen(AppModule.port || 3000)
 }
