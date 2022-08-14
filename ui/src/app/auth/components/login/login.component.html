@@ -1,42 +1,50 @@
-<div class="container mt-3 p-3 bg-light rounded">
+<div class="container mt-3 p-3">
   <div class="row justify-content-center">
-    <div class="col-12 col-md-6 col-xxl-4">
-      <h1>Login</h1>
+    <div class="col-md-6 col-xxl-5">
+      <mat-card>
+        <mat-card-content>
+          <h1>Login</h1>
 
-      <form [formGroup]="loginForm" (ngSubmit)="logIn()">
-        <mat-form-field class="w-100">
-          <mat-label>Enter your email</mat-label>
-          <input matInput placeholder="pat@example.com" [formControl]="loginForm.controls.email" />
-          <mat-error *ngIf="loginForm.controls.email.hasError('required')">You must enter a value</mat-error>
-          <mat-error *ngIf="loginForm.controls.email.hasError('email')">Not a valid email</mat-error>
-        </mat-form-field>
+          <form [formGroup]="loginForm" (ngSubmit)="logIn()">
+            <mat-form-field class="w-100">
+              <mat-label>Enter your email</mat-label>
+              <input matInput placeholder="pat@example.com" [formControl]="loginForm.controls.email" />
+              <mat-error *ngIf="loginForm.controls.email.hasError('required')">You must enter a value</mat-error>
+              <mat-error *ngIf="loginForm.controls.email.hasError('email')">Not a valid email</mat-error>
+            </mat-form-field>
 
-        <mat-form-field class="w-100">
-          <mat-label>Enter your password</mat-label>
-          <input matInput [type]="passwordHidden ? 'password' : 'text'" [formControl]="loginForm.controls.password" />
-          <button
-            type="button"
-            mat-icon-button
-            matSuffix
-            (click)="passwordHidden = !passwordHidden"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="passwordHidden"
-            tabindex="-1"
-          >
-            <mat-icon>{{ passwordHidden ? 'visibility_off' : 'visibility' }}</mat-icon>
-          </button>
-          <mat-error *ngIf="loginForm.controls.password.hasError('required')">You must enter a value</mat-error>
-        </mat-form-field>
+            <mat-form-field class="w-100">
+              <mat-label>Enter your password</mat-label>
+              <input
+                matInput
+                [type]="passwordHidden ? 'password' : 'text'"
+                [formControl]="loginForm.controls.password"
+              />
+              <button
+                type="button"
+                mat-icon-button
+                matSuffix
+                (click)="passwordHidden = !passwordHidden"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="passwordHidden"
+                tabindex="-1"
+              >
+                <mat-icon>{{ passwordHidden ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+              <mat-error *ngIf="loginForm.controls.password.hasError('required')">You must enter a value</mat-error>
+            </mat-form-field>
 
-        <p *ngIf="loginError" class="text-danger">A problem occurred while attempting to login. {{ loginError }}</p>
+            <p *ngIf="loginError" class="text-danger">A problem occurred while attempting to login. {{ loginError }}</p>
 
-        <div class="mt-2 mb-5">
-          <button [disabled]="loginLoading" mat-flat-button color="primary" type="submit">
-            Log In
-            <span *ngIf="loginLoading" class="spinner-border spinner-border-sm ms-1"></span>
-          </button>
-        </div>
-      </form>
+            <div class="mt-2 mb-5">
+              <button [disabled]="loginLoading" mat-flat-button color="primary" type="submit">
+                Log In
+                <span *ngIf="loginLoading" class="spinner-border spinner-border-sm ms-1"></span>
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
     </div>
   </div>
 </div>

@@ -1,4 +1,4 @@
-<mat-toolbar style="height: 45px">
+<mat-toolbar class="app-toolbar border-bottom">
   <button mat-icon-button aria-label="Toggle sidenav" (click)="opened = !opened">
     <mat-icon>menu</mat-icon>
   </button>
@@ -14,17 +14,13 @@
   </a>
 </mat-toolbar>
 
-<mat-sidenav-container>
-  <mat-sidenav [mode]="large ? 'side' : 'over'" [(opened)]="opened" [autoFocus]="false" style="width: 220px">
+<mat-sidenav-container [class.app-side-nav-container-large]="large">
+  <mat-sidenav [mode]="large ? 'side' : 'over'" [(opened)]="opened" [autoFocus]="false" class="app-side-nav">
     <mat-nav-list>
       <!-- LOGGED IN USER NAV MENU ITEMS -->
       <ng-container *ngIf="loggedIn | async">
         <a routerLink="/">
-          <mat-list-item
-            (click)="closeSideNavIfNeeded()"
-            routerLinkActive="text-primary"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
+          <mat-list-item routerLinkActive="text-primary" [routerLinkActiveOptions]="{ exact: true }">
             <p matLine>Home</p>
             <button mat-icon-button>
               <mat-icon>home</mat-icon>
@@ -33,7 +29,7 @@
         </a>
 
         <a routerLink="/activity">
-          <mat-list-item (click)="closeSideNavIfNeeded()" routerLinkActive="text-primary">
+          <mat-list-item routerLinkActive="text-primary">
             <p matLine>Activity</p>
             <button mat-icon-button>
               <mat-icon>directions_walk</mat-icon>
@@ -42,7 +38,7 @@
         </a>
 
         <a routerLink="/user/settings">
-          <mat-list-item (click)="closeSideNavIfNeeded()" routerLinkActive="text-primary">
+          <mat-list-item routerLinkActive="text-primary">
             <p matLine>Account Settings</p>
             <button mat-icon-button>
               <mat-icon>account_circle</mat-icon>
@@ -50,18 +46,19 @@
           </mat-list-item>
         </a>
 
-        <mat-list-item (click)="logOut()" (click)="closeSideNavIfNeeded()">
+        <mat-list-item (click)="logOut()">
           <p matLine>Log Out</p>
           <button mat-icon-button>
             <mat-icon>logout</mat-icon>
           </button>
         </mat-list-item>
       </ng-container>
+      <!-- END LOGGED IN USER NAV MENU ITEMS -->
 
       <!-- LOGGED OUT USER NAV MENU ITEMS -->
       <ng-container *ngIf="(loggedIn | async) === false">
         <a routerLink="/login">
-          <mat-list-item (click)="closeSideNavIfNeeded()">
+          <mat-list-item>
             <p matLine>Login</p>
             <button mat-icon-button>
               <mat-icon>home</mat-icon>
@@ -70,7 +67,7 @@
         </a>
 
         <a routerLink="/login/register">
-          <mat-list-item (click)="closeSideNavIfNeeded()">
+          <mat-list-item>
             <p matLine>Register</p>
             <button mat-icon-button>
               <mat-icon>person_add</mat-icon>
@@ -78,10 +75,11 @@
           </mat-list-item>
         </a>
       </ng-container>
+      <!-- END LOGGED OUT USER NAV MENU ITEMS -->
     </mat-nav-list>
   </mat-sidenav>
 
-  <mat-sidenav-content class="bg-white" style="height: calc(100% - 45px)">
+  <mat-sidenav-content>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
