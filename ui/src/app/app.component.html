@@ -1,4 +1,4 @@
-<mat-toolbar class="app-toolbar border-bottom">
+<mat-toolbar style="height: 45px" class="border-bottom">
   <button mat-icon-button aria-label="Toggle sidenav" (click)="opened = !opened">
     <mat-icon>menu</mat-icon>
   </button>
@@ -14,8 +14,8 @@
   </a>
 </mat-toolbar>
 
-<mat-sidenav-container [class.app-side-nav-container-large]="large">
-  <mat-sidenav [mode]="large ? 'side' : 'over'" [(opened)]="opened" [autoFocus]="false" class="app-side-nav">
+<mat-sidenav-container style="min-height: calc(100% - 45px)">
+  <mat-sidenav [mode]="large ? 'side' : 'over'" [(opened)]="opened" [autoFocus]="false" style="width: 220px">
     <mat-nav-list>
       <!-- LOGGED IN USER NAV MENU ITEMS -->
       <ng-container *ngIf="loggedIn | async">
