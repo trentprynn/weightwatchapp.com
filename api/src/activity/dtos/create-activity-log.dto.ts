@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator'
+import { IsDateString, IsNotEmpty, IsNumber, IsString } from 'class-validator'
 
 export class CreateActivityLogDTO {
   @ApiProperty()
@@ -9,6 +9,7 @@ export class CreateActivityLogDTO {
 
   @ApiProperty()
   @IsNotEmpty()
+  @IsDateString()
   activityDate: Date
 
   @ApiProperty()

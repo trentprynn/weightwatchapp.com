@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://weight-watch-api.herokuapp.com/v1',
+  apiUrl: 'https://weight-watch-api.fly.dev/v1',
 }

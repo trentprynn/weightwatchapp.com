@@ -1,4 +1,5 @@
 # [weightwatchapp.com](https://weightwatchapp.com/)
+[SwaggerUI OpenAPI documentation](https://weight-watch-api.fly.dev/api-docs)
 
 ## What is this?
 Weight Watch is a free, open source web application for tracking your weight over time.
@@ -25,5 +26,5 @@ I wanted an free, lightweight website where I can track weight gain / loss progr
 
 ## Deployment
 - The static angular front end UI is built and hosted using GitHub Actions + GitHub Pages
-- The back end NestJS API is built and hosted using Heroku
-- On a commit to master both the front and back end websites will be automatically built and deployed
+- The back end NestJS API is built and hosted using Fly.io
+- On a commit to master both the front and back end websites will be automatically be built and deployed
