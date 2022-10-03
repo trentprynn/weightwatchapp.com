@@ -1,9 +1,9 @@
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
-// import order matters here, that's why this file is ignored by pre-commit prettier run
+// import order matters here
+import 'zone.js/testing'
 import { getTestBed } from '@angular/core/testing'
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing'
-import 'zone.js/testing'
 
 declare const require: {
   context(
