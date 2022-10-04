@@ -8,7 +8,7 @@
     "test": "ng test",
     "test:quiet": "ng test --watch=false",
     "lint": "prettier --write 'src/' > /dev/null && ng lint --fix",
-    "start:prod": "yarn run http-server dist/angular-weight-watch-ui/"
+    "start:prod": "serve -s dist/angular-weight-watch-ui/"
   },
   "private": true,
   "dependencies": {
@@ -27,9 +27,9 @@
     "@popperjs/core": "2.11.6",
     "bootstrap": "5.2.2",
     "chart.js": "3.9.1",
-    "http-server": "14.1.1",
     "ng2-charts": "4.0.1",
     "rxjs": "7.4.0",
+    "serve": "14.0.1",
     "tslib": "2.4.0",
     "zone.js": "0.11.8"
   },
