@@ -128,36 +128,8 @@ $weight-watch-theme: mat.define-light-theme(
 // that you are using.
 @include mat.all-component-themes($weight-watch-theme);
 
-// vertically align angular material icons in the middle so when placed
-// next to text they look correct
-// reference: https://stackoverflow.com/a/49658015
-.mat-icon {
-  vertical-align: middle;
-}
-
-// correct angular material form fields not correctly
-// vertically centering matPrefix and matSuffix labels
-// reference: https://github.com/angular/components/issues/12803
-.mat-form-field-appearance-outline .mat-form-field-prefix,
-.mat-form-field-appearance-outline .mat-form-field-suffix {
-  place-self: center;
-}
-
-// make mat-checkbox multi-line labels wrap instead of overflow their container
-// reference: https://github.com/angular/components/issues/8416#issuecomment-346380860
-.mat-checkbox-layout {
-  white-space: normal !important;
-}
-
-// make mat-slide-toggle labels wrap instead of truncating overflow to ellipsis
-.mat-slide-toggle {
-  height: unset !important;
-}
-.mat-slide-toggle-content {
-  white-space: normal !important;
-}
-
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
+@include mat.all-component-typographies();
 @include mat.core();
