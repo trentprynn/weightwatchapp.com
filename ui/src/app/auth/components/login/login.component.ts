@@ -2,7 +2,6 @@ import { HttpErrorResponse } from '@angular/common/http'
 import { Component } from '@angular/core'
 import { FormBuilder, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
-import { first } from 'rxjs'
 import { AuthService } from 'src/app/auth/services/auth.service'
 
 @Component({
@@ -27,12 +26,10 @@ export class LoginComponent {
       this.loginError = null
       this.authService
         .login(this.loginForm.controls.email.value, this.loginForm.controls.password.value)
-        .pipe(first())
         .subscribe({
           next: () => {
-            // user was successfully sent a 2FA code, navigate them to the page where they can input it and
-            // finish logging in
-            this.router.navigateByUrl('/dashboard')
+            // user successfully retrieved jwt, send them to logged in homepage
+            this.router.navigateByUrl('/')
           },
           error: (error: HttpErrorResponse) => {
             // failed to retrieve an auth token from the backend

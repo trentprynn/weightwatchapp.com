@@ -26,23 +26,14 @@ export class AuthGuard implements CanActivate, CanLoad {
   constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) {}
 
   canLoad(route: Route, segments: UrlSegment[]): Observable<boolean | UrlTree> {
-    if (segments && segments.length > 0) {
-      const urlString = segments.join('/')
-      return this.allowed(urlString)
-    }
-
     return this.allowed()
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
-    if (state.url) {
-      return this.allowed(state.url)
-    }
-
     return this.allowed()
   }
 
-  private allowed(redirectUrl?: string | undefined): Observable<boolean | UrlTree> {
+  private allowed(): Observable<boolean | UrlTree> {
     return this.authService.loggedIn.pipe(
       map((loggedIn) => {
         if (loggedIn) {
@@ -50,10 +41,6 @@ export class AuthGuard implements CanActivate, CanLoad {
         } else {
           // logged OUT user trying to access page that requires auth, send them
           // back to login
-          if (redirectUrl) {
-            return this.router.parseUrl(`/login?redirectUrl=${redirectUrl}`)
-          }
-
           return this.router.parseUrl('/login')
         }
       })

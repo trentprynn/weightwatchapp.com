@@ -19,59 +19,53 @@
     <mat-nav-list>
       <!-- LOGGED IN USER NAV MENU ITEMS -->
       <ng-container *ngIf="loggedIn | async">
-        <a routerLink="/">
-          <mat-list-item routerLinkActive="text-primary" [routerLinkActiveOptions]="{ exact: true }">
-            <p matLine>Home</p>
-            <button mat-icon-button>
-              <mat-icon>home</mat-icon>
-            </button>
+        <a routerLink="/" class="text-decoration-none">
+          <mat-list-item>
+            <mat-icon matListItemIcon routerLinkActive="text-primary" [routerLinkActiveOptions]="{ exact: true }"
+              >home</mat-icon
+            >
+            <div matListItemTitle routerLinkActive="text-primary" [routerLinkActiveOptions]="{ exact: true }">Home</div>
           </mat-list-item>
         </a>
 
-        <a routerLink="/activity">
-          <mat-list-item routerLinkActive="text-primary">
-            <p matLine>Activity</p>
-            <button mat-icon-button>
-              <mat-icon>directions_walk</mat-icon>
-            </button>
+        <a routerLink="/activity" class="text-decoration-none">
+          <mat-list-item>
+            <mat-icon matListItemIcon routerLinkActive="text-primary">directions_walk</mat-icon>
+            <div matListItemTitle routerLinkActive="text-primary">Activity</div>
           </mat-list-item>
         </a>
 
-        <a routerLink="/user/settings">
-          <mat-list-item routerLinkActive="text-primary">
-            <p matLine>Account Settings</p>
-            <button mat-icon-button>
-              <mat-icon>account_circle</mat-icon>
-            </button>
+        <a routerLink="/user/settings" class="text-decoration-none">
+          <mat-list-item>
+            <mat-icon matListItemIcon routerLinkActive="text-primary">account_circle</mat-icon>
+            <div matListItemTitle routerLinkActive="text-primary">Account Settings</div>
           </mat-list-item>
         </a>
 
         <mat-list-item (click)="logOut()">
-          <p matLine>Log Out</p>
-          <button mat-icon-button>
-            <mat-icon>logout</mat-icon>
-          </button>
+          <mat-icon matListItemIcon>logout</mat-icon>
+          <div matListItemTitle>Log Out</div>
         </mat-list-item>
       </ng-container>
       <!-- END LOGGED IN USER NAV MENU ITEMS -->
 
       <!-- LOGGED OUT USER NAV MENU ITEMS -->
       <ng-container *ngIf="(loggedIn | async) === false">
-        <a routerLink="/login">
+        <a routerLink="/login" class="text-decoration-none">
           <mat-list-item>
-            <p matLine>Login</p>
-            <button mat-icon-button>
-              <mat-icon>home</mat-icon>
-            </button>
+            <mat-icon matListItemIcon routerLinkActive="text-primary" [routerLinkActiveOptions]="{ exact: true }"
+              >home</mat-icon
+            >
+            <div matListItemTitle routerLinkActive="text-primary" [routerLinkActiveOptions]="{ exact: true }">
+              Login
+            </div>
           </mat-list-item>
         </a>
 
-        <a routerLink="/login/register">
+        <a routerLink="/login/register" class="text-decoration-none">
           <mat-list-item>
-            <p matLine>Register</p>
-            <button mat-icon-button>
-              <mat-icon>person_add</mat-icon>
-            </button>
+            <mat-icon matListItemIcon routerLinkActive="text-primary">person_add</mat-icon>
+            <div matListItemTitle routerLinkActive="text-primary">Register</div>
           </mat-list-item>
         </a>
       </ng-container>
