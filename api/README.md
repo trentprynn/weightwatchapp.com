@@ -23,3 +23,11 @@ yarn
 yarn prisma migrate dev
 yarn start
 ```
+
+## Deployment
+- The following commands can be used to locally build and run the Dockerfile that will be deployed
+    - build image: `docker build . -t api.weightwatchapp.com`
+    - create container: `docker run -d --name api.weightwatchapp.com --env-file .env -p 3000:3000  api.weightwatchapp.com`
+    - stop container: `docker stop api.weightwatchapp.com`
+    - delete container: `docker rm api.weightwatchapp.com`
+    - delete image: `docker rmi api.weightwatchapp.com`
