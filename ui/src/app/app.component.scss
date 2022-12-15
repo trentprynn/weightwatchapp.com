@@ -1,0 +1,19 @@
+// background accent coloring that goes behind display content to make the overall website
+// look more polished and friendly
+#contentBackground {
+  min-height: calc(100vh - 45px);
+  width: 100%;
+  background: rgb(114, 163, 216);
+  background: linear-gradient(
+    135deg,
+    rgba(114, 163, 216, 0.4) 0%,
+    rgba(255, 255, 255, 1) 20%,
+    rgba(255, 255, 255, 1) 80%,
+    rgba(114, 163, 216, 0.55) 100%
+  );
+}
+
+.sideNavActiveRouterLink {
+  background-color: rgba(114, 163, 216, 0.2);
+  color: black;
+}

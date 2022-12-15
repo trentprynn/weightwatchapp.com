@@ -1,71 +1,68 @@
-<mat-toolbar style="height: 45px" class="border-bottom">
-  <button mat-icon-button aria-label="Toggle sidenav" (click)="opened = !opened">
-    <mat-icon>menu</mat-icon>
-  </button>
+<mat-sidenav-container>
+  <mat-sidenav
+    [mode]="large ? 'side' : 'over'"
+    [(opened)]="opened"
+    [autoFocus]="false"
+    style="min-height: 100vh; width: 240px; border-right: none"
+  >
+    <mat-toolbar style="height: 45px" class="border-bottom bg-white">
+      <ng-container *ngIf="opened">
+        <button mat-icon-button aria-label="Toggle sidenav" (click)="opened = !opened">
+          <mat-icon>menu</mat-icon>
+        </button>
 
-  <a routerLink="/" class="text-decoration-none">
-    <img
-      src="/assets/image/Weight_Watch_logo_130_30.png"
-      width="130"
-      height="30"
-      class="img-responsive"
-      alt="Weight Watch Logo"
-    />
-  </a>
-</mat-toolbar>
+        <a routerLink="/" class="text-decoration-none">
+          <img
+            src="/assets/image/Weight_Watch_logo_130_30.png"
+            width="130"
+            height="30"
+            class="img-responsive"
+            alt="Weight Watch Logo"
+          />
+        </a>
+      </ng-container>
+    </mat-toolbar>
 
-<mat-sidenav-container style="min-height: calc(100% - 45px)">
-  <mat-sidenav [mode]="large ? 'side' : 'over'" [(opened)]="opened" [autoFocus]="false" style="width: 220px">
-    <mat-nav-list>
+    <mat-nav-list class="pt-0">
       <!-- LOGGED IN USER NAV MENU ITEMS -->
       <ng-container *ngIf="loggedIn | async">
         <a routerLink="/" class="text-decoration-none">
-          <mat-list-item>
-            <mat-icon matListItemIcon routerLinkActive="text-primary" [routerLinkActiveOptions]="{ exact: true }"
-              >home</mat-icon
-            >
-            <div matListItemTitle routerLinkActive="text-primary" [routerLinkActiveOptions]="{ exact: true }">Home</div>
+          <mat-list-item
+            (click)="closeSideNavIfNeeded()"
+            routerLinkActive="sideNavActiveRouterLink"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <mat-icon matListItemIcon>home</mat-icon>
+            <div matListItemTitle>Home</div>
           </mat-list-item>
         </a>
 
         <a routerLink="/activity" class="text-decoration-none">
-          <mat-list-item>
-            <mat-icon matListItemIcon routerLinkActive="text-primary">directions_walk</mat-icon>
-            <div matListItemTitle routerLinkActive="text-primary">Activity</div>
+          <mat-list-item (click)="closeSideNavIfNeeded()" routerLinkActive="sideNavActiveRouterLink">
+            <mat-icon matListItemIcon>directions_walk</mat-icon>
+            <div matListItemTitle>Activity</div>
           </mat-list-item>
         </a>
-
-        <a routerLink="/user/settings" class="text-decoration-none">
-          <mat-list-item>
-            <mat-icon matListItemIcon routerLinkActive="text-primary">account_circle</mat-icon>
-            <div matListItemTitle routerLinkActive="text-primary">Account Settings</div>
-          </mat-list-item>
-        </a>
-
-        <mat-list-item (click)="logOut()">
-          <mat-icon matListItemIcon>logout</mat-icon>
-          <div matListItemTitle>Log Out</div>
-        </mat-list-item>
       </ng-container>
       <!-- END LOGGED IN USER NAV MENU ITEMS -->
 
       <!-- LOGGED OUT USER NAV MENU ITEMS -->
       <ng-container *ngIf="(loggedIn | async) === false">
         <a routerLink="/login" class="text-decoration-none">
-          <mat-list-item>
-            <mat-icon matListItemIcon routerLinkActive="text-primary" [routerLinkActiveOptions]="{ exact: true }"
-              >home</mat-icon
-            >
-            <div matListItemTitle routerLinkActive="text-primary" [routerLinkActiveOptions]="{ exact: true }">
-              Login
-            </div>
+          <mat-list-item
+            (click)="closeSideNavIfNeeded()"
+            routerLinkActive="sideNavActiveRouterLink"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <mat-icon matListItemIcon>home</mat-icon>
+            <div matListItemTitle>Login</div>
           </mat-list-item>
         </a>
 
         <a routerLink="/login/register" class="text-decoration-none">
-          <mat-list-item>
-            <mat-icon matListItemIcon routerLinkActive="text-primary">person_add</mat-icon>
-            <div matListItemTitle routerLinkActive="text-primary">Register</div>
+          <mat-list-item (click)="closeSideNavIfNeeded()" routerLinkActive="sideNavActiveRouterLink">
+            <mat-icon matListItemIcon>person_add</mat-icon>
+            <div matListItemTitle>Register</div>
           </mat-list-item>
         </a>
       </ng-container>
@@ -74,6 +71,46 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <router-outlet></router-outlet>
+    <mat-toolbar style="height: 45px" class="border-bottom bg-white">
+      <ng-container *ngIf="!opened">
+        <button mat-icon-button aria-label="Toggle sidenav" (click)="opened = !opened">
+          <mat-icon>menu</mat-icon>
+        </button>
+
+        <a routerLink="/" class="text-decoration-none">
+          <img
+            src="/assets/image/Weight_Watch_logo_130_30.png"
+            width="130"
+            height="30"
+            class="img-responsive"
+            alt="Weight Watch Logo"
+          />
+        </a>
+      </ng-container>
+
+      <ng-container *ngIf="loggedIn | async">
+        <!-- USER POP OVER BUTTON + MENU -->
+        <button mat-icon-button class="ms-auto" [matMenuTriggerFor]="userMenu" aria-label="user menu" matTooltip="User">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu">
+          <a routerLink="/user/settings" class="text-decoration-none">
+            <button mat-menu-item>
+              <mat-icon>account_circle</mat-icon>
+              <span>User Settings</span>
+            </button>
+          </a>
+
+          <button mat-menu-item (click)="logOut()">
+            <mat-icon>logout</mat-icon>
+            <span class="ms-1 fs-6">Log Out</span>
+          </button>
+        </mat-menu>
+      </ng-container>
+    </mat-toolbar>
+
+    <div id="contentBackground" class="ps-3 pe-3 pt-4 pb-5">
+      <router-outlet></router-outlet>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
