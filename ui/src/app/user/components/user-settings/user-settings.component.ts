@@ -8,10 +8,10 @@ import { UserService } from 'src/app/user/services/user.service'
 import { RefreshToken } from '../../types/refresh-token.type'
 
 @Component({
-  selector: 'app-account-settings',
-  templateUrl: './account-settings.component.html',
+  selector: 'app-user-settings',
+  templateUrl: './user-settings.component.html',
 })
-export class AccountSettingsComponent implements OnInit {
+export class UserSettingsComponent implements OnInit {
   currentUser = this.userService.currentUser
   currentUserLoading = this.userService.currentUserLoading
 

@@ -2,19 +2,19 @@ import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { AuthGuard } from '../auth/guards/auth.guard'
 import { SharedModule } from '../shared/shared.module'
-import { AccountSettingsComponent } from './components/account-settings/account-settings.component'
+import { UserSettingsComponent } from './components/user-settings/user-settings.component'
 
 const routes: Routes = [
   {
     path: 'settings',
-    component: AccountSettingsComponent,
+    component: UserSettingsComponent,
     canActivate: [AuthGuard],
   },
   { path: '**', redirectTo: '/' },
 ]
 
 @NgModule({
-  declarations: [AccountSettingsComponent],
+  declarations: [UserSettingsComponent],
   imports: [SharedModule, RouterModule.forChild(routes)],
   providers: [],
 })
