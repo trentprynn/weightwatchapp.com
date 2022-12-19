@@ -10,8 +10,8 @@ import { Observable } from 'rxjs'
 import { tap } from 'rxjs/operators'
 
 /* The Angular HTTP client by default doesn't parse ISO dates returned from an API call as JS Dates objects, instead
- * it parses them as strings. This interceptor changes this behavior so if a ISO date obejct is returned from an HTTP
- * call it's parsed into a Date object as expected
+ * it parses them as strings. This interceptor changes this behavior so if a ISO date object is returned from an HTTP
+ * call it's parsed into a real JavaScript Date object
  */
 export class HttpDateInterceptor implements HttpInterceptor {
   iso8601 = /^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?(([+-]\d\d:\d\d)|Z)?$/
