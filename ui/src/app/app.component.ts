@@ -1,7 +1,7 @@
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout'
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core'
 import { NavigationStart, Router } from '@angular/router'
-import { debounceTime, filter, fromEvent, startWith, Subject, takeUntil } from 'rxjs'
+import { filter, Subject, takeUntil } from 'rxjs'
 import { AuthService } from './auth/services/auth.service'
 
 @Component({
@@ -16,8 +16,6 @@ export class AppComponent implements OnInit, OnDestroy {
   large: boolean = true
   opened: boolean = true
 
-  height: number = 0
-
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
     event.target.innerWidth
@@ -30,19 +28,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // unfortunately ios 100vh css doesn't respect scrolling height changes such as when the user is scrolling
-    // and their url bar hides (thus changing page height) -- this causes an effect where the page gets stuck when
-    // using 100vh sizing to make our background full height. To get around this we must manually track the height
-    // of the page and then use that to set the height of our background
-    fromEvent(window, 'resize')
-      .pipe(startWith(0))
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .pipe(debounceTime(25))
-      .subscribe((event) => {
-        console.log(`height: ${window.innerHeight}px`)
-        this.height = window.innerHeight
-      })
-
     // listen across viewport widths and open / close the side navigation menu based on how wide the
     // current viewport is
     this.breakpointObserver
